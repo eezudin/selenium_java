@@ -9,6 +9,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import static org.junit.Assert.assertTrue;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -17,6 +19,22 @@ public class GeoTest {
 
     private WebDriver driver;
     private WebDriverWait wait;
+
+    public void checkAlphabet( List<WebElement> rows){
+        List<String> beforeSort = new ArrayList<>();
+        for (WebElement row : rows ) {
+            WebElement link = row.findElement(By.cssSelector("a"));
+            beforeSort.add(link.getText());
+        }
+        List<String> afterSort = new ArrayList<>();
+        for (WebElement row : rows ) {
+            WebElement link = row.findElement(By.cssSelector("a"));
+            afterSort.add(link.getText());
+
+        }
+        Collections.sort(afterSort);
+        assertTrue((beforeSort.equals(afterSort)));
+    }
 
     @Before
     public void start() {
@@ -32,30 +50,16 @@ public class GeoTest {
         driver.findElement(By.name("login")).click();
 
         List<WebElement> rows = driver.findElements(By.cssSelector("table.dataTable  tr.row"));
-        List<String> countries = new ArrayList<>();
-        for (WebElement row : rows ) {
-            WebElement link = row.findElement(By.cssSelector("a"));
-            countries.add(link.getText());
-        }
-        List<String> beforeSort = countries;
+        //checkAlphabet(rows);
+        for (WebElement row : rows){
+            if(row.getAttribute("outerText").matches("\\t\\t\\d{1,3}\t[A-Z]{2}\t\\D*\t[1-9]{1,2}\\t")){
+                System.out.println("true");}
 
-        System.out.println("BeforeSort");
-        for (String a : beforeSort){
-            System.out.println(a);
-        }
-        System.out.println("sort");
-        Collections.sort(countries);
-
-        System.out.println("After sort");
-        for (String a : countries) {
-            System.out.println(a);
+            //\s*\d{1,3}\s[A-Z]{2}\D*[1-9]{1,2}
         }
 
 
-        System.out.println("Check");
-            for (String a : countries){
-                System.out.println(a);
-            }
+
 
 
     }
