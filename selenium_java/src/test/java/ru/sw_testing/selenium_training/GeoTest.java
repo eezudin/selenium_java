@@ -20,7 +20,7 @@ public class GeoTest {
     private WebDriver driver;
     private WebDriverWait wait;
 
-    public void checkAlphabet( List<WebElement> rows){
+    public void checkCountriesAlphabet( List<WebElement> rows){
         List<String> beforeSort = new ArrayList<>();
         for (WebElement row : rows ) {
             WebElement link = row.findElement(By.cssSelector("a"));
@@ -36,6 +36,30 @@ public class GeoTest {
         assertTrue((beforeSort.equals(afterSort)));
     }
 
+    public void checkGeoZonesAlphabet(){
+        List<WebElement> geoZonesIDs = driver.findElements(
+                By.cssSelector("table#table-zones tr:not(.header) input[type=hidden][name$='[id]']"));
+        List<String> zonesIDs = new ArrayList<>();
+        for (WebElement id : geoZonesIDs){
+            zonesIDs.add(id.getAttribute("value"));
+        }
+        List<String> geoZonesBeforeSort = new ArrayList<>();
+        for (String id : zonesIDs) {
+            geoZonesBeforeSort.add(driver.findElement(
+                    By.cssSelector("table#table-zones tr:not(.header) input[type=hidden][name='zones["+id+"][name]']"))
+                    .getAttribute("value"));
+        }
+        List<String> geoZonesAfterSort = new ArrayList<>();
+        for (String id : zonesIDs) {
+            geoZonesAfterSort.add(driver.findElement(
+                    By.cssSelector("table#table-zones tr:not(.header) input[type=hidden][name='zones["+id+"][name]']"))
+                    .getAttribute("value"));
+        }
+        Collections.sort(geoZonesAfterSort);
+        assertTrue((geoZonesBeforeSort.equals(geoZonesAfterSort)));
+        driver.get("http://localhost/litecart/admin/?app=countries&doc=countries");
+    }
+
     @Before
     public void start() {
         driver = new ChromeDriver();
@@ -43,25 +67,42 @@ public class GeoTest {
     }
 
     @Test
-    public void loginTest() {
+    public void geoTest() {
         driver.get("http://localhost/litecart/admin/?app=countries&doc=countries");
         driver.findElement(By.name("username")).sendKeys("admin");
         driver.findElement(By.name("password")).sendKeys("admin");
         driver.findElement(By.name("login")).click();
 
         List<WebElement> rows = driver.findElements(By.cssSelector("table.dataTable  tr.row"));
-        //checkAlphabet(rows);
+        checkCountriesAlphabet(rows);
+
+        List<WebElement> countriesWithGeoZone = new ArrayList<>(); //\s*\d{1,3}\s[A-Z]{2}\D*[1-9]{1,2}
         for (WebElement row : rows){
             if(row.getAttribute("outerText").matches("\\t\\t\\d{1,3}\t[A-Z]{2}\t\\D*\t[1-9]{1,2}\\t")){
-                System.out.println("true");}
-
-            //\s*\d{1,3}\s[A-Z]{2}\D*[1-9]{1,2}
+                countriesWithGeoZone.add(row);
+            }
         }
 
+        List<String> countriesNames = new ArrayList<>();
+        for (WebElement country : countriesWithGeoZone){
+            WebElement link = country.findElement(By.cssSelector("a"));
+            countriesNames.add(link.getText());
+            }
 
+        for (String country : countriesNames ){
+            List<WebElement> links = driver.findElements(By.cssSelector("a"));
+            for (WebElement link : links){
+                if(link.getText().equals(country)){
+                    link.click();
+                    checkGeoZonesAlphabet();
+                    break;
+                }
+            }
+        }
 
-
-
+        driver.get("http://localhost/litecart/admin/?app=geo_zones&doc=geo_zones");
+        List<WebElement> geoRows = driver.findElements(By.cssSelector("table.dataTable  tr.row"));
+        checkCountriesAlphabet(geoRows);
     }
 
     @After
