@@ -56,7 +56,7 @@ public class AddProductTest {
         driver.findElement(By.cssSelector("input[value='1-3']")).click();
         driver.findElement(By.cssSelector("input[name=quantity]")).clear();
         driver.findElement(By.cssSelector("input[name=quantity]")).sendKeys("10");
-        //driver.findElement(By.cssSelector("input[type=file]")).sendKeys("C:\\xampp\\htdocs\\litecart\\images\\trump_duck.jpg");
+        // driver.findElement(By.cssSelector("input[type=file]")).sendKeys("C:\\xampp\\htdocs\\litecart\\images\\trump_duck.jpg");
         File file = new File("trump_duck.jpg");
         driver.findElement(By.cssSelector("input[type=file]")).sendKeys(file.getAbsolutePath());
         driver.findElement(By.cssSelector("input[name=date_valid_from]")).sendKeys("01012018");
@@ -82,7 +82,6 @@ public class AddProductTest {
         driver.findElement(By.cssSelector("button[name=save]")).click();
 
         assert (checkNewProduct());
-
     }
 
     @After
