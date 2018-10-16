@@ -13,7 +13,6 @@ import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.assertTrue;
 
@@ -35,16 +34,14 @@ public class ShoppingCartTest {
     }
 
     public boolean isItemDeleted(List<WebElement> items, WebDriver driver){
-        try {
-            driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-            if(items.size() == 1){
-                String expectedText = "There are no items in your cart.";
-                return driver.findElement(By.cssSelector("div#checkout-cart-wrapper em")).getText().equals(expectedText);
-            }
-            return driver.findElements(By.cssSelector("td.item")).size() == items.size() - 1 ;
-        } finally {
-            driver.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
+        String expectedText = "There are no items in your cart.";
+        if(items.size() == 1){
+            return wait.until(
+                    ExpectedConditions.attributeContains(
+                            By.cssSelector("div#checkout-cart-wrapper em"), "textContent", expectedText));
         }
+        // wait.until(ExpectedConditions.numberOfElementsToBe(By.cssSelector("td.item"), items.size() - 1));
+        return wait.until(d -> d.findElements(By.cssSelector("td.item")).size() == items.size() - 1);
     }
 
     @Before
@@ -63,26 +60,15 @@ public class ShoppingCartTest {
         }
 
         driver.findElement(By.cssSelector("a.link[href$=checkout]")).click();
-        System.out.println("");
-        /*if(driver.findElements(By.cssSelector("ul.shortcuts")) != null){
-            driver.findElement(By.cssSelector("ul.shortcuts")).click();
-        }*/
-        //wait.until(ExpectedConditions.  By.cssSelector("button[name=remove_cart_item")));
-        List<WebElement> items = driver.findElements(By.cssSelector("td.item"));//driver.findElements(By.cssSelector("button[name=remove_cart_item]"));
+        List<WebElement> items = driver.findElements(By.cssSelector("td.item"));
             for (int i = 0; i < items.size(); i++) {
-                System.out.println("");
                 List<WebElement> currentItems = driver.findElements(By.cssSelector("td.item"));
-                wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("button[name=remove_cart_item]")));
+                if (driver.findElements(By.cssSelector(".shortcut")).size() != 0){
+                    driver.findElement(By.cssSelector(".shortcut")).click();
+                }
                 driver.findElement(By.cssSelector("button[name=remove_cart_item]")).click();
                 assertTrue(isItemDeleted(currentItems, driver));
                 }
-
-
-
-        System.out.println();
-
-
-
     }
 
     @After
