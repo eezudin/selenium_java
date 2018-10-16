@@ -60,6 +60,24 @@ public class GeoTest {
         driver.get("http://localhost/litecart/admin/?app=countries&doc=countries");
     }
 
+    public void checkGeoZonesAlphabet2() {
+        List<WebElement> geoZonesSelects = driver.findElements(
+                By.cssSelector("select[name$='[zone_code]'"));
+
+        List<String> selectedZonesBeforeSort = new ArrayList<>();
+        for (WebElement select : geoZonesSelects) {
+            selectedZonesBeforeSort.add(select.findElement(By.cssSelector("option[selected=selected]")).getText());
+        }
+
+        List<String> selectedZonesAfterSort = new ArrayList<>();
+        for (WebElement select : geoZonesSelects) {
+            selectedZonesAfterSort.add(select.findElement(By.cssSelector("option[selected=selected]")).getText());
+        }
+        Collections.sort(selectedZonesAfterSort);
+        assertTrue(selectedZonesBeforeSort.equals(selectedZonesAfterSort));
+        driver.get("http://localhost/litecart/admin/?app=geo_zones&doc=geo_zones");
+    }
+
     @Before
     public void start() {
         driver = new ChromeDriver();
@@ -101,8 +119,21 @@ public class GeoTest {
         }
 
         driver.get("http://localhost/litecart/admin/?app=geo_zones&doc=geo_zones");
-        List<WebElement> geoRows = driver.findElements(By.cssSelector("table.dataTable  tr.row"));
-        checkCountriesAlphabet(geoRows);
+        List<WebElement> geoRows = driver.findElements(By.cssSelector("table.dataTable tr.row a:not([title=Edit])"));
+        List<String> geoRowsNames = new ArrayList<>();
+        for (WebElement row : geoRows) {
+            geoRowsNames.add(row.getText());
+        }
+        for (String country : geoRowsNames ){
+            List<WebElement> links = driver.findElements(By.cssSelector("table.dataTable tr.row a:not([title=Edit])"));
+            for (WebElement link : links){
+                if(link.getText().equals(country)){
+                    link.click();
+                    checkGeoZonesAlphabet2();
+                    break;
+                }
+            }
+        }
     }
 
     @After
