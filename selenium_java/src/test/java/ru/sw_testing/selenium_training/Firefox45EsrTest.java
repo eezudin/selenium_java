@@ -1,21 +1,21 @@
 package ru.sw_testing.selenium_training;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.HasCapabilities;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
 
 public class Firefox45EsrTest {
 
     private WebDriver driver;
     private WebDriverWait wait;
 
-    @Before
+    @BeforeTest
     public void start() {
         //old way of working w/o geckodriver
         FirefoxOptions options = new FirefoxOptions().setLegacy(true)
@@ -33,7 +33,7 @@ public class Firefox45EsrTest {
         driver.findElement(By.name("login")).click();
     }
 
-    @After
+    @AfterTest
     public void stop() {
         driver.quit();
         driver = null;

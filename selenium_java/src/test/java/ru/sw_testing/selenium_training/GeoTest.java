@@ -1,19 +1,19 @@
 package ru.sw_testing.selenium_training;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
-import static org.junit.Assert.assertTrue;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import static org.testng.Assert.assertTrue;
 
 public class GeoTest {
 
@@ -78,7 +78,7 @@ public class GeoTest {
         driver.get("http://localhost/litecart/admin/?app=geo_zones&doc=geo_zones");
     }
 
-    @Before
+    @BeforeTest
     public void start() {
         driver = new ChromeDriver();
         wait = new WebDriverWait(driver, 20);
@@ -136,7 +136,7 @@ public class GeoTest {
         }
     }
 
-    @After
+    @AfterTest
     public void stop() {
         driver.quit();
         driver = null;

@@ -1,13 +1,13 @@
 package ru.sw_testing.selenium_training;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +24,7 @@ public class StickerMainPageTest {
         return false;
     }
 
-    @Before
+    @BeforeTest
     public void start() {
         driver = new ChromeDriver();
         wait = new WebDriverWait(driver, 20);
@@ -51,7 +51,7 @@ public class StickerMainPageTest {
             }
         }
     }
-    @After
+    @AfterTest
     public void stop() {
         driver.quit();
         driver = null;

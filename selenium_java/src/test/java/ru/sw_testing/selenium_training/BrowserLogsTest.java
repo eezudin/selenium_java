@@ -1,9 +1,5 @@
 package ru.sw_testing.selenium_training;
 
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -12,6 +8,10 @@ import org.openqa.selenium.logging.LogEntry;
 import org.openqa.selenium.support.events.AbstractWebDriverEventListener;
 import org.openqa.selenium.support.events.EventFiringWebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
 
 import java.io.*;
 import java.time.LocalDateTime;
@@ -99,7 +99,7 @@ public boolean checkLogs() {
             }
         }
     }
-    @Before
+    @BeforeTest
     public void start() {
         driver = new EventFiringWebDriver(new ChromeDriver());
         driver.register(new MyListener());
@@ -136,7 +136,7 @@ public boolean checkLogs() {
         }
     }
 
-    @After
+    @AfterTest
 
     public void stop() {
         driver.quit();

@@ -1,9 +1,5 @@
 package ru.sw_testing.selenium_training;
 
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -11,10 +7,13 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
 
 import java.util.List;
 
-import static org.junit.Assert.assertTrue;
+import static org.testng.Assert.assertTrue;
 
 public class ShoppingCartTest {
 
@@ -44,7 +43,7 @@ public class ShoppingCartTest {
         return wait.until(d -> d.findElements(By.cssSelector("td.item")).size() == items.size() - 1);
     }
 
-    @Before
+    @BeforeTest
     public void start() {
         driver = new ChromeDriver();
         driver.manage().window().maximize();
@@ -71,7 +70,7 @@ public class ShoppingCartTest {
                 }
     }
 
-    @After
+    @AfterTest
     public void stop() {
         driver.quit();
         driver = null;
