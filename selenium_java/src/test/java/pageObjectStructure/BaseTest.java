@@ -3,7 +3,7 @@ package pageObjectStructure;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 
-public class BaseTest {
+public abstract class BaseTest {
     public Application app;
 
     @BeforeTest
@@ -11,9 +11,9 @@ public class BaseTest {
          app = new Application();
     }
 
+
     @AfterTest
     public void stop() {
-        app.quit();
-       // driver = null;
+
     }
 }

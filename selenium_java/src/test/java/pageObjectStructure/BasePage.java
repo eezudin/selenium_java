@@ -12,4 +12,7 @@ public class BasePage {
             wait = new WebDriverWait(driver, 20);
         }
 
+    public void quit() {
+        driver.quit();
+    }
 }
