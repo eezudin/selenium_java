@@ -1,4 +1,4 @@
-package pageObjectStructure;
+package pageObjectStructure.Tests;
 
 import org.testng.annotations.Test;
 

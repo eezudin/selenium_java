@@ -1,8 +1,11 @@
-package pageObjectStructure;
+package pageObjectStructure.Application;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import pageObjectStructure.Pages.CartPage;
+import pageObjectStructure.Pages.MainPage;
+import pageObjectStructure.Pages.ProductPage;
 
 import java.util.List;
 

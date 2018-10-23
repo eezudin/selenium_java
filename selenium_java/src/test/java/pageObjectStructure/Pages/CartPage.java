@@ -1,4 +1,4 @@
-package pageObjectStructure;
+package pageObjectStructure.Pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -7,7 +7,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.List;
 
-public class CartPage extends BasePage{
+public class CartPage extends BasePage {
     public CartPage(WebDriver driver) {
         super(driver);
     }

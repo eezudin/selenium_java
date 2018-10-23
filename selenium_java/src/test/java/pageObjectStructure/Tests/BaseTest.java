@@ -1,7 +1,8 @@
-package pageObjectStructure;
+package pageObjectStructure.Tests;
 
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
+import pageObjectStructure.Application.Application;
 
 public abstract class BaseTest {
     public Application app;
